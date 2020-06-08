@@ -8,18 +8,14 @@ app = Flask(__name__)
 def index():
   return render_template('index.html')
 
-@app.route('/my-link/')
-def my_link():
-  print ('I got clicked!')
-
-  return 'Click.'
-
 @app.route('/temp', methods=['POST'])
 def temp():
     try:
         c = 0
         place = request.form['Place']
-        l = int(len(place.upper))
+        l = len(place)
+        if l == 0:
+            return 'Please re-enter proper place name<br/> <br/> <a href="/">Back Home</a>'
         while c == 0:
             #place = str(input('Enter place ? '))
             if place.upper == 'N':
@@ -39,6 +35,7 @@ def temp():
                 return 'Current temperature in %s is %s <br/> <br/> <a href="/">Back Home</a>' % (place, update)
             else:
                 print("Enter valid search place or 'n' to exit ")
+                return 'Enter valid search place <br/> <br/> <a href="/">Back Home</a>'
     except:
         return 'Current temperature in not available, please re-enter proper place name<br/> <br/> <a href="/">Back Home</a>'
         print(sys.exc_info())
@@ -49,9 +46,11 @@ def distance():
         c = 0
         while c == 0:
             place1 = request.form['Starting_Place']
-            l = int(len(place1.upper))
             place2 = request.form['Destination_Place']
-            l = int(len(place2.upper))
+            l1 = len(place1)
+            l2 = len(place2)
+            if l1 ==0 or l2 ==0:
+                return 'Please re-enter proper place name<br/> <br/> <a href="/">Back Home</a>'
             # place1 = 'dankuni'
             # place2 = 'bally'
             if place1.upper == 'N':
